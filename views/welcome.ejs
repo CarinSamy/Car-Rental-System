@@ -1,0 +1,148 @@
+<%- include("header") %>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="filterSection">
+          <form action="/filter" method="post" id="filterForm">
+
+            <!-- Year Filter -->
+            <div class="yearFilter">
+              <h2>Year Filter</h2>
+              <label for="year2019">
+                <input type="checkbox" id="year2019" name="year" value="2019" <%=selectedYears.includes('2019')
+                  ? 'checked' : '' %>
+                onchange="this.form.submit()">
+                2019
+              </label><br>
+              <label for="year2020">
+                <input type="checkbox" id="year2020" name="year" value="2020" <%=selectedYears.includes('2020')
+                  ? 'checked' : '' %>
+                onchange="this.form.submit()">
+                2020
+              </label><br>
+
+              <label for="year2021">
+                <input type="checkbox" id="year2021" name="year" value="2021" <%=selectedYears.includes('2021')
+                  ? 'checked' : '' %>
+                onchange="this.form.submit()">
+                2021
+              </label><br>
+
+              <label for="year2022">
+                <input type="checkbox" id="year2022" name="year" value="2022" <%=selectedYears.includes('2022')
+                  ? 'checked' : '' %>
+                onchange="this.form.submit()">
+                2022
+              </label><br>
+
+              <label for="year2023">
+                <input type="checkbox" id="year2023" name="year" value="2023" <%=selectedYears.includes('2023')
+                  ? 'checked' : '' %>
+                onchange="this.form.submit()">
+                2023
+              </label><br>
+            </div>
+
+            <!-- Unit price Filter -->
+            <div class="unitpriceFilter">
+              <h2>Unit Price Filter</h2>
+              <input type="text" name="minPrice" placeholder="<%= selected_minPrice %>"
+                value="<%= selected_minPrice %>">
+              <input type="text" name="maxPrice" placeholder="<%= selected_maxPrice %>"
+                value="<%= selected_maxPrice %>">
+              <input type="submit" class="priceFilterSubmit">
+              <button type="button" class="clearFilters">Clear</button>
+            </div>
+
+          </form>
+        </div>
+
+        <section class="products">
+          <div class="container">
+            <div class="row">
+
+              <% if(carsList && carsList.length> 0) { %>
+                <% carsList.forEach((car)=> { %>
+                  <div class="col-md-4">
+                    <div class="product-item">
+
+
+
+
+                      <img src="/car_images/<%= car.Model %>.png" class="card-img-top car-image"
+                        alt="No car image available"
+                        onerror="this.onerror=null; this.src='/car_images/no-car-img.png';">
+
+                      <h2>
+                        <%= car.Model %>
+                          <%= car.PlateID %>
+                      </h2>
+                      <p>Year: <%= car.Year %>
+                      </p>
+                      <p>Status: <%= car.Status %>
+                      </p>
+                      <p>Price: <%= car.unitprice %> $</p>
+                      <% if(car.Status==="Active" || car.Status==="active" ) { %>
+                        <form action="/reservation" method="get">
+                          <input type="hidden" name="CarID" value="<%= car.CarID %>">
+                          <input type="hidden" name="CustomerID" value="<%= customerDetails.CustomerID %>">
+                          <span><button class="book-now-button" type="submit">Reserve</button></span>
+                        </form>
+                        <% } else { %>
+                          <p>This car is currently <%= car.Status %>.</p>
+                          <% } %>
+                            <a href="/office-details?CarID=<%= car.CarID %>">Office Details</a>
+                            <small>
+                              <strong title="passegengers"><i class="fa fa-user"></i> 5</strong>
+                              &nbsp;&nbsp;&nbsp;&nbsp;
+                              <strong title="luggages"><i class="fa fa-briefcase"></i> 4</strong>
+                              &nbsp;&nbsp;&nbsp;&nbsp;
+                              <strong title="doors"><i class="fa fa-sign-out"></i> 4</strong>
+                              &nbsp;&nbsp;&nbsp;&nbsp;
+                              <strong title="transmission"><i class="fa fa-cog"></i> A</strong>
+                            </small>
+                    </div>
+                  </div>
+                  <% }); %>
+                    <% } else { %>
+                      <div class="col-md-12">
+                        <p>No cars available at the moment.</p>
+                      </div>
+                      <% } %>
+
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+
+
+  <%- include("footer") %>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.yearFilter input[type="checkbox"]');
+        const priceInputs = document.querySelectorAll('.unitpriceFilter input[type="text"]');
+
+        // Function to clear checkboxes and price inputs
+        function clearFilters() {
+          checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+          });
+
+          priceInputs.forEach(input => {
+            input.value = '';
+          });
+
+          document.getElementById('filterForm').submit();
+        }
+
+
+        document.querySelector('.clearFilters').addEventListener('click', function () {
+          clearFilters();
+        });
+      });
+    </script>

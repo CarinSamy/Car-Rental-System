@@ -1,0 +1,65 @@
+<%- include("admin-header") %>
+
+    <h1>Search Results</h1>
+
+    <% if (searchResults && searchResults.length > 0) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Car ID</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>PlateID</th>
+                    <th>Status</th>
+                    <th>unitPrice</th>
+                    <th>office_id</th>
+                    <th>office Location</th>
+                    <th>office contact_info</th>
+                    <th>Customer ID</th>
+                    <th>Customer First Name</th>
+                    <th>Customer Last Name</th>
+                    <th>Customer Email</th>
+                    <th>Customer Phone</th>
+                    <th>Customer Address</Address></th>
+                    <th>Reservation Date</th>
+                    <th>Pickup Date</th>
+                    <th>Return Date</th>
+
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <% searchResults.forEach(results => { %>
+                    <tr>
+                        <td><%= results.CarID %></td>
+                        <td><%= results.Model %></td>
+                        <td><%= results.Year %></td>
+                        <td><%= results.PlateID %></td>
+                        <td><%= results.Status %></td>
+                        <td><%= results.unitprice %></td>
+                        <td><%= results.office_id %></td>
+                        <td><%= results.location %></td>
+                        <td><%= results.contact_info %></td>
+                        <td><%= results.CustomerID %></td>
+                        <td><%= results.FirstName %></td>
+                        <td><%= results.LastName %></td>
+                        <td><%= results.Email %></td>
+                        <td><%= results.Phone %></td>
+                        <td><%= results.Address %></td>
+                        <td><%= results.ReservationDate.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' }) %></td>
+                        <td><%= results.PickupDate.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' }) %></td>
+                        <td><%= results.ReturnDate.toLocaleDateString(undefined, { year: 'numeric', month: '2-digit', day: '2-digit' }) %></td>
+                        
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No results found.</p>
+    <% } %>
+
+
+
+
+
+
